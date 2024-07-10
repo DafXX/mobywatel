@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image with Real-time Text and GIF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 170vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+        .text {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0);
+            color: rgba(52, 52, 52, 0.682);
+            padding: 10px;
+            border-radius: 5px;
+            white-space: nowrap; /* Prevent text wrapping */
+            text-align: center;
+            font-size: small;
+            font-weight: 100;
+        }
+        .gif {
+            position: absolute;
+            top: 325px; /* Adjust as needed */
+            left: 64px;
+            transform: translateX(-50%);
+            width: 64px; /* Adjust size as needed */
+            height: 40px;
+        }
+        .image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="mobywatel.png" alt="Descriptive Alt Text" class="image">
+        <div class="text" id="realtime-text">Loading...</div>
+        <img src="poland.gif" alt="Descriptive Alt Text" class="gif">
+    </div>
+
+    <script>
+        function padZero(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const day = padZero(now.getDate());
+            const month = padZero(now.getMonth() + 1);
+            const year = now.getFullYear();
+            const hours = padZero(now.getHours());
+            const minutes = padZero(now.getMinutes());
+            const seconds = padZero(now.getSeconds());
+            const timeString = `Data: ${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+            document.getElementById('realtime-text').textContent = timeString;
+        }
+
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
