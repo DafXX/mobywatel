@@ -72,6 +72,10 @@
             document.getElementById('realtime-text').textContent = timeString;
         }
 
+        function OpenfullScreen(URL) {
+            window.open(URL, '', 'fullscreen=yes, scrollbars=auto, resizble=no, status=yes, toolbar=no,menubar=no, scrollbars=no');
+        }
+
         // Update time immediately and then every second
         updateTime();
         setInterval(updateTime, 1000);
