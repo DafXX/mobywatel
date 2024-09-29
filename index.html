@@ -65,19 +65,33 @@
             margin-bottom: 20px;
         }
         .start-button {
-            padding: 63px 100px;
-            background-color: #007bff;
+            padding: 135px 210px;
+            background-color: #007bff00;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            position: absolute;
-            left: 65px;
-            top: 220px;
             transition-duration: 200ms;
+            left:09px;
+            top:52px;
+            position:absolute;
         }
-        .start-button:hover {
+        .back-button {
+            padding: 15px 10px;
+            background-color: #007bff00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition-duration: 200ms;
+            left:19px;
+            top:52px;
+            position:absolute; 
+        }
+        .start-button:hover,
+        .back-button:hover {
             background-color: #00102124;
         }
 
@@ -129,6 +143,7 @@
             <img src="mobywatel.png" alt="Descriptive Alt Text" class="image">
             <div class="text" id="realtime-text"></div>
             <img src="poland2.gif" alt="Descriptive Alt Text" class="gif">
+            <button class="back-button" onclick="goBack()">Back</button>
         </div>
     </div>
 
@@ -172,6 +187,13 @@
                     }, 10); // Delay to allow transition to kick in
                 }, 200); // Wait for loading screen to fade out
             }, 1000); // 1-second loading screen
+        }
+
+        function goBack() {
+            // Hide the real-time content
+            document.getElementById('realtime-content').style.display = 'none';
+            // Show the initial content again
+            document.getElementById('initial-content').style.display = 'block';
         }
 
         // Update time immediately and then every second
