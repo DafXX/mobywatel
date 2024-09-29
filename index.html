@@ -27,17 +27,17 @@
             color: rgba(52, 52, 52, 0.682);
             padding: 10px;
             border-radius: 5px;
-            white-space: nowrap; /* Prevent text wrapping */
+            white-space: nowrap;
             text-align: center;
             font-size: small;
             font-weight: bold;
         }
         .gif {
             position: absolute;
-            top: 325px; /* Adjust as needed */
-            left: 64px;
+            top: 300px;
+            left: 62px;
             transform: translateX(-50%);
-            width: 64px; /* Adjust size as needed */
+            width: 64px;
             height: 40px;
             border-radius: 5px;
         }
@@ -46,13 +46,90 @@
             width: 100%;
             height: auto;
         }
+        .hidden-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(100%); /* Start off-screen */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .show-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0); /* Animate to position */
+        }
+        .initial-content {
+            text-align: center;
+        }
+        .initial-image {
+            width: 300px;
+            margin-bottom: 20px;
+        }
+        .start-button {
+            padding: 63px 100px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            position: absolute;
+            left: 65px;
+            top: 220px;
+            transition-duration: 200ms;
+        }
+        .start-button:hover {
+            background-color: #00102124;
+        }
+
+        /* Loading screen styling */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(255, 255, 255);
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: -1; /* Initially hidden behind other content */
+            opacity: 0;
+            transition: opacity 0.2s ease, z-index 0s linear 0.2s; /* Delay z-index after fade out */
+        }
+        .loading-screen.visible {
+            z-index: 9999; /* Bring the loading screen to the front */
+            opacity: 1;
+            transition: opacity 0.2s ease, z-index 0s; /* Remove delay for showing z-index */
+        }
+        .img {
+            width: 70px;
+            height: auto;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <img src="mobywatel.png" alt="Descriptive Alt Text" class="image">
-        <div class="text" id="realtime-text">Loading...</div>
-        <img src="poland2.gif" alt="Descriptive Alt Text" class="gif">
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <img src="logo.png" class="img">
+    </div>
+
+    <!-- Initial Content: Visible at the start -->
+    <div class="initial-content" id="initial-content">
+        <img src="mainscreen.png" alt="Initial Image" class="initial-image">
+        <button class="start-button" onclick="startExperience()"></button>
+    </div>
+
+    <!-- Real-time Content: Initially hidden -->
+    <div class="hidden-content" id="realtime-content">
+        <div class="container">
+            <img src="mobywatel.png" alt="Descriptive Alt Text" class="image">
+            <div class="text" id="realtime-text"></div>
+            <img src="poland2.gif" alt="Descriptive Alt Text" class="gif">
+        </div>
     </div>
 
     <script>
@@ -72,13 +149,35 @@
             document.getElementById('realtime-text').textContent = timeString;
         }
 
-        function OpenfullScreen(URL) {
-            window.open(URL, '', 'fullscreen=yes, scrollbars=auto, resizble=no, status=yes, toolbar=no,menubar=no, scrollbars=no');
+        function startExperience() {
+            const loadingScreen = document.getElementById('loading-screen');
+            // Show the loading screen immediately
+            loadingScreen.classList.add('visible');
+
+            // Start 1-second encounter
+            setTimeout(() => {
+                // Hide loading screen
+                loadingScreen.classList.remove('visible');
+
+                // After loading screen is hidden, show the real-time content
+                setTimeout(() => {
+                    document.getElementById('initial-content').style.display = 'none';
+                    
+                    const realtimeContent = document.getElementById('realtime-content');
+                    realtimeContent.style.display = 'block';
+                    
+                    // Trigger the pop-up animation
+                    setTimeout(() => {
+                        realtimeContent.classList.add('show-content');
+                    }, 10); // Delay to allow transition to kick in
+                }, 200); // Wait for loading screen to fade out
+            }, 1000); // 1-second loading screen
         }
 
         // Update time immediately and then every second
         updateTime();
         setInterval(updateTime, 1000);
     </script>
+
 </body>
 </html>
