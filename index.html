@@ -10,7 +10,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 130vh;
             margin: 0;
             background-color: #f0f0f0;
         }
@@ -43,28 +43,27 @@
         }
         .image {
             display: block;
-            max-width: 100%;
+            width: 100%;
             height: auto;
         }
         .hidden-content {
             display: none;
             opacity: 0;
-            transform: translateY(100%);
+            transform: translateY(100%); /* Start off-screen */
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .show-content {
             display: block;
             opacity: 1;
-            transform: translateY(0);
+            transform: translateY(0); /* Animate to position */
         }
         .initial-content {
             text-align: center;
-            overflow: hidden;
+            overflow:hidden;
         }
         .initial-image {
-            max-width: 100%;
-            margin-left: -50px;
-            margin-top: -50px;
+            width: 480px;
+            margin-left:-50px;
         }
         .start-button {
             padding: 95px 150px;
@@ -75,9 +74,9 @@
             cursor: pointer;
             font-size: 16px;
             transition-duration: 200ms;
-            left: 20px;
-            top: 170px;
-            position: absolute;
+            left:20px;
+            top:170px;
+            position:absolute;
         }
         .back-button {
             padding: 15px 10px;
@@ -88,14 +87,16 @@
             cursor: pointer;
             font-size: 16px;
             transition-duration: 200ms;
-            left: 19px;
-            top: 52px;
-            position: absolute;
+            left:19px;
+            top:52px;
+            position:absolute; 
         }
         .start-button:hover,
         .back-button:hover {
             background-color: #00102124;
         }
+
+        /* Loading screen styling */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -108,35 +109,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: -1;
+            z-index: -1; /* Initially hidden behind other content */
             opacity: 0;
-            transition: opacity 0.2s ease, z-index 0s linear 0.2s;
+            transition: opacity 0.2s ease, z-index 0s linear 0.2s; /* Delay z-index after fade out */
         }
         .loading-screen.visible {
-            z-index: 9999;
+            z-index: 9999; /* Bring the loading screen to the front */
             opacity: 1;
-            transition: opacity 0.2s ease, z-index 0s;
+            transition: opacity 0.2s ease, z-index 0s; /* Remove delay for showing z-index */
         }
         .img {
             width: 130px;
             height: auto;
-            justify-content: center;
+            justify-content:center;
         }
 
-        /* Media Queries for small screens */
-        @media (max-width: 768px) {
-            .gif {
-                top: 200px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 48px;
-                height: 30px;
-            }
-            .start-button {
-                padding: 60px 100px;
-                top: 140px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -175,31 +162,43 @@
             const hours = padZero(now.getHours());
             const minutes = padZero(now.getMinutes());
             const seconds = padZero(now.getSeconds());
-            const timeString = `Data: ${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+            const timeString = Data: ${day}.${month}.${year} ${hours}:${minutes}:${seconds};
             document.getElementById('realtime-text').textContent = timeString;
         }
 
         function startExperience() {
             const loadingScreen = document.getElementById('loading-screen');
+            // Show the loading screen immediately
             loadingScreen.classList.add('visible');
+
+            // Start 1-second encounter
             setTimeout(() => {
+                // Hide loading screen
                 loadingScreen.classList.remove('visible');
+
+                // After loading screen is hidden, show the real-time content
                 setTimeout(() => {
                     document.getElementById('initial-content').style.display = 'none';
+                    
                     const realtimeContent = document.getElementById('realtime-content');
                     realtimeContent.style.display = 'block';
+                    
+                    // Trigger the pop-up animation
                     setTimeout(() => {
                         realtimeContent.classList.add('show-content');
-                    }, 10);
-                }, 200);
-            }, 1000);
+                    }, 10); // Delay to allow transition to kick in
+                }, 200); // Wait for loading screen to fade out
+            }, 1000); // 1-second loading screen
         }
 
         function goBack() {
+            // Hide the real-time content
             document.getElementById('realtime-content').style.display = 'none';
+            // Show the initial content again
             document.getElementById('initial-content').style.display = 'block';
         }
 
+        // Update time immediately and then every second
         updateTime();
         setInterval(updateTime, 3000);
     </script>
