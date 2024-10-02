@@ -45,6 +45,7 @@
             display: block;
             width: 100%;
             height: auto;
+            border-radius:50px;
         }
         .hidden-content {
             display: none;
@@ -68,8 +69,8 @@
             align-items: center;
             position:absolute;
             top:-20px;
-            width: 420px;
-            margin-left:-220px;
+            width: 480px;
+            margin-left:-240px;
             background-color: #f0f0f0;
             overflow:hidden;
             
@@ -192,12 +193,9 @@
     }
 
     function goBack() {
-        // Hide the real-time content
-        const realtimeContent = document.getElementById('realtime-content');
-        realtimeContent.classList.remove('show-content');
 
-        // Show the initial content again
-        document.getElementById('initial-content').style.display = 'block';
+        location.reload();
+
     }
 
     // Update the time immediately and then every 3 seconds
