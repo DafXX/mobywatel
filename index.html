@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image with Real-time Text and GIF</title>
+    <title>mObywatel</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -34,11 +35,11 @@
         }
         .gif {
             position: absolute;
-            top: 326px;
+            top: 323px;
             left: 64px;
             transform: translateX(-50%);
             width: 64px;
-            height: 40px;
+            height: 44px;
             border-radius: 5px;
         }
         .image {
@@ -48,15 +49,21 @@
             border-radius:50px;
         }
         .hidden-content {
-            display: none;
             opacity: 0;
-            transform: translateY(100%); /* Start off-screen */
+            transform: translateX(100%);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .show-content {
             display: block;
             opacity: 1;
-            transform: translateY(0); /* Animate to position */
+            transform: translateX(0);
+        }
+        .main {
+            top: 0;
+            position: absolute;
+            background-color: white;
+            width: 100vw;
+            text-align: center;
         }
         .initial-content {
             text-align: center;
@@ -133,16 +140,12 @@
             height: auto;
             justify-content:center;
         }
-
+        #realtime-content {
+            font-family: "Roboto", serif;
+        }
     </style>
 </head>
 <body>
-
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loading-screen">
-        <img src="logo.png" class="img">
-    </div>
-
     <!-- Initial Content: Visible at the start -->
     <div class="initial-content" id="initial-content">
         <img src="mainscreen.png" alt="Initial Image" class="initial-image">
@@ -150,10 +153,10 @@
     </div>
 
     <!-- Real-time Content: Initially hidden -->
-    <div class="hidden-content" id="realtime-content">
+    <div class="hidden-content main" id="realtime-content">
         <div class="container">
             <img src="mobywatel.png" alt="Descriptive Alt Text" class="image">
-            <div class="text" id="realtime-text"></div>
+            <span class="text" id="realtime-text"></span>
             <img src="poland2.gif" alt="Descriptive Alt Text" class="gif">
             <button class="back-button" onclick="goBack()"></button>
         </div>
@@ -161,35 +164,12 @@
 
    <script>
     function startExperience() {
-        const loadingScreen = document.getElementById('loading-screen');
         const realtimeContent = document.getElementById('realtime-content');
         
-        // Show the loading screen
-        loadingScreen.classList.add('visible');
-
-        // Wait for 1 second before hiding the loading screen
         setTimeout(() => {
-            // Hide the loading screen after the delay
-            loadingScreen.classList.remove('visible');
-
-            // After hiding, delay the z-index change
-            setTimeout(() => {
-                // Remove loading screen from view by resetting z-index
-                loadingScreen.style.zIndex = '-1';
-                
-                // Hide the initial content
-                document.getElementById('initial-content').style.display = 'none';
-
-                // Display the real-time content
-                realtimeContent.style.display = 'block';
-                
-                // Trigger the animation to show the real-time content
-                setTimeout(() => {
-                    realtimeContent.classList.add('show-content');
-                }, 10); // Small delay to allow transition to kick in
-
-            }, 200); // Delay for the fade-out transition of the loading screen
-        }, 1000); // 1-second loading screen
+                realtimeContent.classList.remove('hide-content');
+                realtimeContent.classList.add('show-content');
+        }, 500);
     }
 
     function goBack() {
@@ -198,9 +178,19 @@
 
     }
 
-    // Update the time immediately and then every 3 seconds
+    function updateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        document.getElementById('realtime-text').textContent = `Czas: ${hours}:${minutes}:${seconds} ${day}.${month}.${year}`;
+    }
+
     updateTime();
-    setInterval(updateTime, 3000);
+    setInterval(updateTime, 250);
 </script>
 
 
